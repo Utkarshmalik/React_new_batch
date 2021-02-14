@@ -179,7 +179,6 @@ const renderUserData = () => {
     })
 }
 
-
 class App extends React.Component {
 
     constructor(props) {
@@ -192,42 +191,108 @@ class App extends React.Component {
             textField: "",
             currentUsers: UserList
         }
-
     }
 
-    renderUserData() {
-   return this.state.currentUsers.map((user) => {
-    return <UserComponent key={user.id} userDetails={user} />;
-    })
-  }
+    onEditUser=(id,newFirstname)=>
+    {
+        console.log(id);
+        console.log(newFirstname);
 
-    onInputChange(e) {
+        const updatedUsers=[...this.state.currentUsers];
 
-        const value=e.target.value;
-
-        this.setState({ textField:value});
-
-
-        const updatedUsers=UserList.filter((user)=>
+        updatedUsers.forEach((user)=>
         {
-            const fullName=user.firstName + " "+user.lastName;
-            return fullName.toLowerCase().startsWith(value);
+            if(user.id===id)
+            {
+                user.firstName=newFirstname;
+            }
+        });
+
+        return updatedUsers;
+    }
+
+
+
+
+    onDeleteUser = (id) => {
+        console.log(id);
+
+        const updatedUsers=this.state.currentUsers.filter((user)=>
+        {
+            return user.id!==id;
         });
 
         this.setState({currentUsers:updatedUsers});
+    }
 
-        
+
+
+    renderUserData() {
+        return this.state.currentUsers.map((user) => {
+            return <UserComponent 
+            key={user.id} 
+            userDetails={user} 
+            onDeleteUser={(id) => this.onDeleteUser(id)}
+            onEditUser={(id,newFirstname)=>this.onEditUser(id,newFirstname)} />
+        })
+    }
+
+    onInputChange(e) {
+
+        const value = e.target.value;
+
+        this.setState({ textField: value });
+
+
+        const updatedUsers = UserList.filter((user) => {
+            const fullName = user.firstName + " " + user.lastName;
+            return fullName.toLowerCase().startsWith(value);
+        });
+
+        this.setState({ currentUsers: updatedUsers });
+
+
+    }
+
+    onResetUsers() {
+        this.setState({ currentUsers: UserList });
+    }
+
+
+    onSortUsers() {
+        function compare(user1, user2) {
+            const name1 = user1.firstName.toLowerCase();
+            const name2 = user2.firstName.toLowerCase();
+            if (name1 < name2) {
+                return -1;
+            }
+            if (name1 > name2) {
+                return 1;
+            }
+            return 0;
+        }
+
+        const currentUsersCopy = [...this.state.currentUsers];
+
+        currentUsersCopy.sort(compare);
+
+        console.log(currentUsersCopy);
+
+        this.setState({ currentUsers: currentUsersCopy });
     }
 
     render() {
 
         return (
             <div className="App">
-            <h2>User Data</h2>
+                <h2>User Data</h2>
 
-            <div>
-            <input type="text" style={{ width: "400px", height: "25px" }} placeholder="Enter Text Here" value={this.state.textField} onChange={(e) => this.onInputChange(e)} />
-            </div>
+                <div>
+                    <input type="text" style={{ width: "400px", height: "25px" }} placeholder="Enter Text Here" value={this.state.textField} onChange={(e) => this.onInputChange(e)} />
+                    <button onClick={() => this.onSortUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Sort Users</button>
+                    <button onClick={() => this.onResetUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Reset Users</button>
+
+                </div>
 
                 {this.renderUserData()};
             </div>
