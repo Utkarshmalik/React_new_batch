@@ -8,7 +8,7 @@ class User extends React.Component {
 
     constructor(props) {
         super(props);
-
+        // console.log("inside contructor");
 
         this.state = {
             isEditMode: false,
@@ -38,8 +38,19 @@ class User extends React.Component {
         this.setState({textField:e.target.value});
     }
 
+    componentWillUnmount()
+    {
+        console.log("User about to unmont");
+    }
+
+    componentDidUpdate()
+    {
+        console.log("Component updated");
+    }
+
 
     render() {
+        // console.log("inside render");
         const { email, firstName, lastName, picture, id } = this.props.userDetails;
         const { onDeleteUser,onEditUser } = this.props;
 
