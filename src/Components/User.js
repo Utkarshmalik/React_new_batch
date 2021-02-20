@@ -1,79 +1,60 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+
+import {Link,useRouteMatch} from 'react-router-dom';
 
 
 
+const User=(props)=>{
+
+    let match=useRouteMatch();
 
 
-class User extends React.Component {
+    const [isEditMode,changeIsEditMode]=useState(false);
+    const [textField,changeTextField]=useState("");
 
-    constructor(props) {
-        super(props);
-        // console.log("inside contructor");
+   const  onEdit = () => {
+    changeIsEditMode(true);
+    changeTextField(props.userDetails.firstName)
 
-        this.state = {
-            isEditMode: false,
-            textField:""
-        }
-    }
-
-    onEdit = () => {
-        console.log(this.props);
-        this.setState({isEditMode:true,textField:this.props.userDetails.firstName});
 
     }
 
-    onSave=()=>
+   const onSave=()=>
     {
-        this.setState({isEditMode:false});
-
-        console.log(this.props.userDetails.id);
-        console.log(this.state.textField);
-
-
-        this.props.onEditUser(this.props.userDetails.id,this.state.textField);
+        changeIsEditMode(false);
+        props.onEditUser(props.userDetails.id,textField);
     }
-
-    onTextFieldChange(e)
+   const onTextFieldChange=(e)=>
     {
-        this.setState({textField:e.target.value});
+        changeTextField(e.target.value);
     }
 
-    componentWillUnmount()
-    {
-        console.log("User about to unmont");
-    }
-
-    componentDidUpdate()
-    {
-        console.log("Component updated");
-    }
-
-
-    render() {
-        // console.log("inside render");
-        const { email, firstName, lastName, picture, id } = this.props.userDetails;
-        const { onDeleteUser,onEditUser } = this.props;
+   
+       const { email, firstName, lastName, picture, id } =props.userDetails;
+        const { onDeleteUser,onEditUser } = props;
 
         return (
-            <div style={{ border: "5px solid black", display: "inline-block", textAlign: 'center', padding: "20px", margin: "10px" }} >
+            <Link to={`${match.url}/${id}/`} >
+            <div  style={{ border: "5px solid black", display: "inline-block", textAlign: 'center', padding: "20px", margin: "10px" }} >
+            
                 <img src={picture} />
 
                 {
 
-                    (this.state.isEditMode)? <input type="text" value={this.state.textField} onChange={(e)=>this.onTextFieldChange(e)} />  :<h4>{firstName}</h4>
+                    (isEditMode)? <input type="text" value={textField} onChange={(e)=>onTextFieldChange(e)} />  :<h4>{firstName}</h4>
 
                 }
 
                 <p>{email}</p>
                 {
-                    (this.state.isEditMode)?<button onClick={() => this.onSave()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Save User</button>
-                    :<button onClick={() => this.onEdit()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Edit User</button>
+                    (isEditMode)?<button onClick={() => onSave()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Save User</button>
+                    :<button onClick={() => onEdit()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Edit User</button>
                 }
                 <button onClick={() => onDeleteUser(id)} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Delete User</button>
             </div>
-        )
+            </Link>
 
-    }
+        )
 
 }
 
