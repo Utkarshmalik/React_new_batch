@@ -9,20 +9,9 @@ import UserList from './Components/UsersList';
 
 
 
-
-class App extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            // textField: "",
-            // allUsers:null,
-            // currentUsers:null
-        }
-    }   
-
-    render() {
+const App=()=> {
+    
+    
         return (
             <Router>
             <div className="App">
@@ -51,31 +40,9 @@ class App extends React.Component {
             </div>
             </Router>
         )
-    }
 }
 
 
 
 export default App;
 
-
-
-
-
-/*
-functional Components -> cannot use state
- Class Based Components -> actually allows the usage of state in that component
-*/
-
-
-/*
-
-State and props
-
-
-
-Button is clicked -> UI should be updated
-UI Update -> to Change the State -> setState
-
-
-*/

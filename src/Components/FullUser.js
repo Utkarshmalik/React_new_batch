@@ -4,7 +4,7 @@ import {Spinner} from 'react-bootstrap';
 import UserComponent from './User';
 
 function FullUser(props) {
-
+    
     let match = useRouteMatch();
     console.log(match);
 

@@ -1,60 +1,44 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import '../App.css';
 import UserComponent from './User';
 import {Spinner} from 'react-bootstrap';
-
 import {BrowserRouter as Router ,Link,Switch,Route} from 'react-router-dom';
 
 
 
-const renderUserData = () => {
 
-return this.state.allUsers.map((user) => {
-    return <UserComponent key={user.id} userDetails={user} />;
-})
-}
 
-class App extends React.Component {
-
-constructor(props) {
-    super(props);
-    console.log("Inside Constructor");
-
-    //state - is a JS object where we store key value pairs that belongs to my component 
-    //any data in my application resides in my state
-
-    this.state = {
-        textField: "",
-        allUsers:null,
-        currentUsers:null
-    }
-}
+const UserList=()=> {
 
 
 
-componentDidMount()
-{
-    console.log('Inside Component Did Mount');
-    
+
+    const [textField,changeTextField]=useState("");
+    const [allUsers,changeAllUsers]=useState(null);
+    const [currentUsers,changeCurrentUsers]=useState(null);
+
+
+    useEffect(()=>
+    {
+        console.log("use Effect called");
     fetch("https://dummyapi.io/data/api/user",{
         method:"GET",
         headers:{"app-id":"5fca5a3236a334a6a8f40cc7"}
     }).then(data=>data.json())
     .then(data=>{
         const users=data.data;
-        this.setState({allUsers:users,currentUsers:users});
-    }
-    );
-}
-
-
-onEditUser=(id,newFirstname)=>
+        changeAllUsers(users);
+        changeCurrentUsers(users);
+    });
+    },[])
+    
+const onEditUser=(id,newFirstname)=>
 {
     console.log(id);
     console.log(newFirstname);
 
 
-    const updatedUsers=[...this.state.currentUsers];
+    const updatedUsers=[...currentUsers];
 
     updatedUsers.forEach((user)=>
     {
@@ -70,52 +54,53 @@ onEditUser=(id,newFirstname)=>
 
 
 
-onDeleteUser = (id) => {
+const onDeleteUser = (id) => {
     console.log(id);
 
-    const updatedUsers=this.state.currentUsers.filter((user)=>
+    const updatedUsers=currentUsers.filter((user)=>
     {
         return user.id!==id;
     });
 
-    this.setState({currentUsers:updatedUsers});
+    changeAllUsers(updatedUsers);
 }
 
 
 
-renderUserData() {
-    return this.state.currentUsers.map((user) => {
+const renderUserData=()=> {
+
+    console.log(currentUsers);
+    return currentUsers.map((user) => {
         return <UserComponent 
         key={user.id} 
         userDetails={user} 
-        onDeleteUser={(id) => this.onDeleteUser(id)}
-        onEditUser={(id,newFirstname)=>this.onEditUser(id,newFirstname)} />
+        onDeleteUser={(id) => onDeleteUser(id)}
+        onEditUser={(id,newFirstname)=>onEditUser(id,newFirstname)} />
     })
 }
 
-onInputChange(e) {
+const onInputChange=(e)=> {
 
     const value = e.target.value;
 
-    this.setState({ textField: value });
+    changeTextField(value);
 
 
-    const updatedUsers = this.state.allUsers.filter((user) => {
+    const updatedUsers = allUsers.filter((user) => {
         const fullName = user.firstName + " " + user.lastName;
         return fullName.toLowerCase().startsWith(value);
     });
 
-    this.setState({ currentUsers: updatedUsers });
-
+    changeCurrentUsers(updatedUsers);
 
 }
 
-onResetUsers() {
-    this.setState({ currentUsers: this.state.allUsers });
+const onResetUsers=()=> {
+    changeCurrentUsers(allUsers);
 }
 
 
-onSortUsers() {
+const onSortUsers=()=>{
     function compare(user1, user2) {
         const name1 = user1.firstName.toLowerCase();
         const name2 = user2.firstName.toLowerCase();
@@ -128,37 +113,39 @@ onSortUsers() {
         return 0;
     }
 
-    const currentUsersCopy = [...this.state.currentUsers];
+    const currentUsersCopy = [...currentUsers];
 
     currentUsersCopy.sort(compare);
 
     console.log(currentUsersCopy);
 
-    this.setState({ currentUsers: currentUsersCopy });
+    changeCurrentUsers(currentUsersCopy);
+
 }
 
-render() {
-    console.log('Inside Render Menthod');
+
     return (
         <div className="App">
             <h2>User Data</h2>
 
             <div>
-                <input type="text" style={{ width: "400px", height: "25px" }} placeholder="Enter Text Here" value={this.state.textField} onChange={(e) => this.onInputChange(e)} />
-                <button onClick={() => this.onSortUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Sort Users</button>
-                <button onClick={() => this.onResetUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Reset Users</button>
+                <input type="text" style={{ width: "400px", height: "25px" }} placeholder="Enter Text Here" value={textField} onChange={(e) => onInputChange(e)} />
+                <button onClick={() => onSortUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Sort Users</button>
+                <button onClick={() => onResetUsers()} style={{ border: "3px solid black", margin: "0 10px", padding: "8px 30px", cursor: "pointer" }}>Reset Users</button>
 
             </div>
 
-            {(this.state.allUsers)?this.renderUserData():<Spinner animation="border" />};
+            {
+                (currentUsers)?renderUserData():<Spinner animation="border" />
+            
+            };
         </div>
     )
-}
 
 }
 
 
 
-export default App;
+export default UserList;
 
 
