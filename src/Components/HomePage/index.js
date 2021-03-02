@@ -29,21 +29,27 @@ function HomePage(props) {
         fetch('https://fakestoreapi.com/products/categories')
             .then(res=>res.json())
             .then(data=>{
+                console.log(data);
                 changeCategories(data);
 
                const categoryData= data.map((category,index)=>
                 {
                     return {name:category,isChecked:false};
                 })
-
                 changeCurrentlyCheckedCategories(categoryData);
-
+                console.log(categoryData);
             })
+
+
 
     }, [])
 
     const onCheckboxChange=(e)=>
     {
+        // which checkbox has been tocuhed
+        // wherther the cb is checked or unchecked
+        console.dir(e.target);
+
         const checkedCategory=e.target.name;
         const isCheckedCategory=e.target.checked;
 
@@ -57,6 +63,8 @@ function HomePage(props) {
 
             return category;
         })
+
+        console.log(updated);
 
         const checkedCat=updated.filter((category,index)=>
         {
@@ -178,7 +186,6 @@ function HomePage(props) {
                 </Spinner> : <ProductList currentProducts={currentProducts} />
 
             }
-
         </div>
     );
 }
