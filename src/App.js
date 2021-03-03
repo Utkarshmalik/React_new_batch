@@ -4,7 +4,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import HomePage from './Components/HomePage';
-
+import ThemeContextProvider from './Contexts/ThemeContextProvider';
 
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
 
     return (
         <Router>
+        <ThemeContextProvider>
             <div className="App">
                 <ul style={{ display: "flex", justifyContent: "space-around", width: "20%", border: "3px solid red", color: "white", backgroundColor: "black" }} >
                     <li><Link to="/home">Home</Link> </li>
@@ -36,6 +37,7 @@ const App = () => {
                     }
                 </Switch>
             </div>
+            </ThemeContextProvider>
         </Router>
     )
 }
