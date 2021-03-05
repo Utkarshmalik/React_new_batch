@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import ProductList from '../ProductList';
+import {ThemeContext} from '../../Contexts/ThemeContextProvider'
 
 function HomePage(props) {
 
@@ -10,11 +11,6 @@ function HomePage(props) {
 
     const [categories,changeCategories]=useState(null);
     const [currentlyCheckedCategories,changeCurrentlyCheckedCategories]=useState([]);
-
-    // {
-    //     name:"jeweleery",
-    //     isChecked:"true"/"false"
-    // }
 
 
     useEffect(() => {
@@ -165,11 +161,29 @@ function HomePage(props) {
     }
 
     return (
-        <div style={{position:"relative",border:"3px solid pink"}}>
+        <div style={{position:"relative"}}>
 
             <input style={{ border: "3px solid black", display: "inline-block", margin: "40px" }} type="text"
              value={textField}
               onChange={(e) => onTextFieldChange(e)} />
+
+              <ThemeContext.Consumer>
+              {
+
+                (themeContextObject)=>
+                {
+                    const {onThemeChange}=themeContextObject;
+
+                    return <button onClick={()=>onThemeChange()}>Toggle Theme</button>
+                }
+
+              }
+
+              </ThemeContext.Consumer>
+
+
+
+
             <br />
             <button onClick={()=>onSortLowToHigh()}  style={{border:"3px solid black",color:"blue",margin:"20px",padding:"10px"}} >Sort Low to high</button>
             <button onClick={()=>onReset()}  style={{border:"3px solid black",color:"blue",margin:"20px",padding:"10px 35px"}} >Reset</button>
