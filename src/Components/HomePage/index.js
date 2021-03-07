@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import ProductList from '../ProductList';
 import {ThemeContext} from '../../Contexts/ThemeContextProvider'
+import ShowCorrectPage from '../HOC/showCorrectPage';
 
 function HomePage(props) {
 
@@ -161,6 +162,7 @@ function HomePage(props) {
     }
 
     return (
+        
         <div style={{position:"relative"}}>
 
             <input style={{ border: "3px solid black", display: "inline-block", margin: "40px" }} type="text"
@@ -204,4 +206,4 @@ function HomePage(props) {
     );
 }
 
-export default HomePage;
+export default ShowCorrectPage(HomePage);

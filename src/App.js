@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import HomePage from './Components/HomePage';
 import ThemeContextProvider from './Contexts/ThemeContextProvider';
-
+import Login from './Components/Form';
 
 const App = () => {
 
@@ -21,6 +21,10 @@ const App = () => {
                 <Switch>
                     <Route exact path='/'>
                         <h1>Landing Page</h1>
+                    </Route>
+
+                    <Route path='/login'>
+                       <Login/>
                     </Route>
 
                     <Route path='/home'>
