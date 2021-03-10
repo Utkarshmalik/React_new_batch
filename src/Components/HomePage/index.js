@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import {useSelector} from 'react-redux'
 import { Spinner } from 'react-bootstrap';
 import ProductList from '../ProductList';
 import {ThemeContext} from '../../Contexts/ThemeContextProvider'
 import ShowCorrectPage from '../HOC/showCorrectPage';
 
+
+
 function HomePage(props) {
+
+    const currentUser=useSelector( state=>state.currentUser);
+
+    console.log(currentUser);
 
     const [allProducts, changeAllProducts] = useState(null);
     const [currentProducts, changeCurrentProducts] = useState(null);
@@ -206,4 +213,4 @@ function HomePage(props) {
     );
 }
 
-export default ShowCorrectPage(HomePage);
+export default   HomePage;

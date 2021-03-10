@@ -6,12 +6,13 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import HomePage from './Components/HomePage';
 import ThemeContextProvider from './Contexts/ThemeContextProvider';
 import Login from './Components/Form';
+import {Provider} from 'react-redux';
+import {store} from './Store';
 
 const App = () => {
-
-
     return (
         <Router>
+        <Provider store={store}>
         <ThemeContextProvider>
             <div className="App">
                 <ul style={{ display: "flex", justifyContent: "space-around", width: "20%", border: "3px solid red", color: "white", backgroundColor: "black" }} >
@@ -42,6 +43,7 @@ const App = () => {
                 </Switch>
             </div>
             </ThemeContextProvider>
+            </Provider>
         </Router>
     )
 }
