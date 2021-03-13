@@ -1,0 +1,61 @@
+Handling Forms 
+useRefs
+useReducer
+Code Splitting
+Lazy Loading 
+useMemo 
+Error Boundries
+Good Practices
+A talk on react performance and optimisations 
+useRef
+forwardRef
+
+
+
+React Fragments 
+React Fragments:
+https://reactjs.org/docs/fragments.html
+
+
+
+PropTypes
+https://medium.com/@leonardobrunolima/react-tips-validating-props-with-proptypes-24c64d58f4c0
+
+
+
+
+Forms
+https://rossbulat.medium.com/formik-for-react-introduction-to-form-management-done-right-971889b40f9f
+
+
+
+useCallBack :
+
+https://flaviocopes.com/react-hook-usecallback/
+https://blog.hackages.io/react-hooks-usecallback-and-usememo-8d5bb2b67231
+
+
+
+
+
+
+Lazy Loading :
+
+https://linguinecode.com/post/code-splitting-react-router-with-react-lazy-and-react-suspense
+
+https://blog.bitsrc.io/improve-react-performance-using-lazy-loading-and-suspense-933903171954
+
+
+
+Erroor Boundries :
+
+https://reactjs.org/docs/error-boundaries.html
+
+
+
+
+
+Refs:
+
+https://rossbulat.medium.com/how-to-use-react-refs-4541a7501663#:~:text=Refs%20are%20created%20using%20React,and%20modified%20through%20the%20ref.
+
